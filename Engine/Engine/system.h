@@ -31,8 +31,6 @@ public:
 
 	bool initialize();
 	void run();
-
-	LRESULT CALLBACK messageHandler(HWND, UINT, WPARAM, LPARAM);
 };
 
 static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);

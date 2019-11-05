@@ -39,10 +39,13 @@
 #include "Collider.h"
 #include "BoxCollider.h"
 #include "GameObject.h"
+#include "Scene.h"
 
 #include "Camera.h"
+#include "modelclass.h"
+#include "lightclass.h"
+#include "textclass.h"
 #include "SkyBox.h"
-#include "Scene.h"
 
 #include "system.h"
 

@@ -36,7 +36,7 @@ private:
 	};
 
 	struct SentenceData {
-		string msg;
+		std::string msg;
 		int posX, posY;
 		float r, g, b;
 	};

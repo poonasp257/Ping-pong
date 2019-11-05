@@ -2,22 +2,17 @@
 #include "MainScene.h"
 
 
-MainScene::MainScene() : Scene() {
-	m_Camera = 0;
-	m_LightShader = 0;
-	m_Light = 0;
+#include "stdafx.h"
+#include "MainScene.h"
+
+MainScene::MainScene() : Scene(), shaderManager(new ShaderManager),
+mainCamera(new Camera), skyBox(new SkyBox) {
+
 }
-
-
-MainScene::MainScene(const MainScene& other)
-{
-}
-
 
 MainScene::~MainScene()
 {
 }
-
 
 bool MainScene::initialize(int screenWidth, int screenHeight, HWND hwnd)
 {
@@ -31,15 +26,8 @@ bool MainScene::initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	// Create the camera object.
-	m_Camera = new Camera;
-	if (!m_Camera)
-	{
-		return false;
-	}
-
 	// Set the initial position of the camera.
-	m_Camera->setPosition(0.0f, 0.0f, -40.0f);
+	mainCamera->setPosition(0.0f, 0.0f, -40.0f);
 
 	const char* fileNames[] = {
 		"../Engine/data/doll.obj",
@@ -97,14 +85,14 @@ bool MainScene::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Create the texture shader object.
-	m_LightShader = new LightShaderClass;
+	m_LightShader = new LightShader;
 	if (!m_LightShader)
 	{
 		return false;
 	}
 
 	// Initialize the texture shader object.
-	result = m_LightShader->Initialize(direct3D->getDevice(), hwnd);
+	result = m_LightShader->initialize(direct3D->getDevice(), hwnd);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
@@ -128,8 +116,8 @@ bool MainScene::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	// Initialize a base view matrix with the camera for 2D user interface rendering.
 	D3DXMATRIX baseViewMatrix;
 
-	m_Camera->render();
-	m_Camera->getViewMatrix(baseViewMatrix);
+	mainCamera->render();
+	mainCamera->getViewMatrix(baseViewMatrix);
 
 	// Create the text object.
 	m_Text = new TextClass;
@@ -161,8 +149,7 @@ bool MainScene::initialize(int screenWidth, int screenHeight, HWND hwnd)
 		return false;
 	}
 
-	m_skyBox = new SkyBox;
-	result = m_skyBox->initialize(direct3D->getDevice(), hwnd, L"../Engine/data/skymap.dds");
+	result = skyBox->initialize(direct3D->getDevice(), hwnd, L"../Engine/data/skymap.dds");
 	if (!result)
 	{
 		return false;
@@ -176,25 +163,25 @@ bool MainScene::frame(int fps, float frameTime, int cpu) {
 	bool result;
 
 	if (Input.GetKeyDown(DIK_1)) {
-		m_LightShader->SetFilter(direct3D->getDevice(), D3D11_FILTER_MIN_MAG_MIP_POINT);
+		m_LightShader->setFilter(direct3D->getDevice(), D3D11_FILTER_MIN_MAG_MIP_POINT);
 	}
 	else if (Input.GetKeyDown(DIK_2)) {
-		m_LightShader->SetFilter(direct3D->getDevice(), D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT);
+		m_LightShader->setFilter(direct3D->getDevice(), D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT);
 	}
 	else if (Input.GetKeyDown(DIK_3)) {
-		m_LightShader->SetFilter(direct3D->getDevice(), D3D11_FILTER_MIN_MAG_MIP_LINEAR);
+		m_LightShader->setFilter(direct3D->getDevice(), D3D11_FILTER_MIN_MAG_MIP_LINEAR);
 	}
 	else if (Input.GetKeyDown(DIK_4)) {
-		m_LightShader->SetFilter(direct3D->getDevice(), D3D11_FILTER_ANISOTROPIC);
+		m_LightShader->setFilter(direct3D->getDevice(), D3D11_FILTER_ANISOTROPIC);
 	}
 
-	m_Camera->frame(frameTime);
+	mainCamera->frame(frameTime);
 
 	if (Input.GetKeyDown(DIK_F1)) {
 		m_Text->TurnOnOffRenderInfo();
 	}
 
-	result = m_Text->SetCameraPosition(m_Camera->getPosition(), direct3D->getDeviceContext());
+	result = m_Text->SetCameraPosition(mainCamera->getPosition(), direct3D->getDeviceContext());
 	if (!result)
 	{
 		return false;
@@ -237,11 +224,11 @@ bool MainScene::render()
 	direct3D->beginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Generate the view matrix based on the camera's position.
-	m_Camera->render();
+	mainCamera->render();
 
 	// Get the world, view, and projection matrices from the camera and d3d objects.
-	m_Camera->getViewMatrix(viewMatrix);
-	m_Camera->getProjectionMatrix(newProjectionMatrix);
+	mainCamera->getViewMatrix(viewMatrix);
+	mainCamera->getProjectionMatrix(newProjectionMatrix);
 			  
 	direct3D->getWorldMatrix(worldMatrix);
 	direct3D->getProjectionMatrix(projectionMatrix);
@@ -294,9 +281,9 @@ bool MainScene::render()
 		}
 
 		// Render the model using the texture shader.
-		result = m_LightShader->Render(direct3D->getDeviceContext(), m_Models[i]->GetIndexCount(), objMatrix[i], viewMatrix, projectionMatrix,
+		result = m_LightShader->render(direct3D->getDeviceContext(), m_Models[i]->GetIndexCount(), objMatrix[i], viewMatrix, projectionMatrix,
 			m_Models[i]->GetTexture(), m_Light->GetDirection(),
-			m_Light->GetAmbientColor(), m_Light->GetDiffuseColor(), m_Camera->getPosition(),
+			m_Light->GetAmbientColor(), m_Light->GetDiffuseColor(), mainCamera->getPosition(),
 			m_Light->GetSpecularColor(), m_Light->GetSpecularPower());
 		if (!result) {
 			return false;
@@ -305,7 +292,7 @@ bool MainScene::render()
 
 	//Reset sphereWorld
 	D3DXMATRIX sphereWorld, sphereScale, sphereTranslation;
-	D3DXVECTOR3 cameraPos = m_Camera->getPosition();
+	D3DXVECTOR3 cameraPos = mainCamera->getPosition();
 	D3DXMatrixIdentity(&sphereWorld);
 
 	//Define sphereWorld's world space matrix
@@ -316,7 +303,7 @@ bool MainScene::render()
 	//Set sphereWorld's world space using the transformations
 	sphereWorld = sphereScale * sphereTranslation;
 
-	m_skyBox->render(direct3D->getDeviceContext(), sphereWorld, viewMatrix, newProjectionMatrix);
+	skyBox->render(direct3D->getDeviceContext(), sphereWorld, viewMatrix, newProjectionMatrix);
 
 
 	// Turn off the Z buffer to begin all 2D rendering.

@@ -5,7 +5,7 @@ class ShaderManager {
 private:
 	std::unique_ptr<TextureShader> textureShader;
 	std::unique_ptr<FontShader> fontShader;
-	std::unique_ptr<LightShaderClass> lightShader;
+	std::unique_ptr<LightShader> lightShader;
 
 public:
 	ShaderManager();

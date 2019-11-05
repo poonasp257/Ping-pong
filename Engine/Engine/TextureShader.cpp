@@ -160,7 +160,7 @@ bool TextureShader::initializeShader(ID3D11Device* device, HWND hwnd, const WCHA
 void TextureShader::outputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, const WCHAR* shaderFilename) {
 	char* compileErrors;
 	unsigned long bufferSize, i;
-	ofstream fout;
+	std::ofstream fout;
 
 	compileErrors = (char*)(errorMessage->GetBufferPointer());
 

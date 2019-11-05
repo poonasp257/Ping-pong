@@ -78,14 +78,6 @@ bool System::frame() {
 	return true;
 }
 
-LRESULT CALLBACK System::messageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam) {
-	switch(umsg) {
-		default: {
-			return DefWindowProc(hwnd, umsg, wparam, lparam);
-		}
-	}
-}
-
 void System::initializeWindows(int& screenWidth, int& screenHeight) {
 	WNDCLASSEX wc;
 	DEVMODE dmScreenSettings;
@@ -171,7 +163,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)
 			return 0;
 		}
 		default: {
-			return ApplicationHandle->messageHandler(hwnd, umessage, wparam, lparam);
+			return DefWindowProc(hwnd, umessage, wparam, lparam);
 		}
 	}
 }

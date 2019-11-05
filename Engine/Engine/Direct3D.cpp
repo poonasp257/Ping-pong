@@ -85,7 +85,7 @@ bool Direct3D::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	IDXGIFactory* factory;
 	IDXGIAdapter* adapter;
 	IDXGIOutput* adapterOutput;
-	unsigned int numModes, i, numerator = 0, denominator = 0, stringLength;
+	unsigned int numModes, numerator = 0, denominator = 0, stringLength;
 	DXGI_MODE_DESC* displayModeList;
 	DXGI_ADAPTER_DESC adapterDesc;
 	int error;
@@ -122,7 +122,7 @@ bool Direct3D::initialize(int screenWidth, int screenHeight, bool vsync, HWND hw
 	result = adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModeList);
 	if(FAILED(result)) return false;
 
-	for(i=0; i<numModes; ++i) {
+	for(int i = 0; i < numModes; ++i) {
 		if(displayModeList[i].Width == (unsigned int)screenWidth) {
 			if(displayModeList[i].Height == (unsigned int)screenHeight) {
 				numerator = displayModeList[i].RefreshRate.Numerator;
