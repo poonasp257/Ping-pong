@@ -82,14 +82,14 @@ bool MainScene::initialize(int screenWidth, int screenHeight, HWND hwnd)
 	}
 
 	// Create the texture shader object.
-	m_TextureShader = new TextureShaderClass;
+	m_TextureShader = new TextureShader;
 	if (!m_TextureShader)
 	{
 		return false;
 	}
 
 	// Initialize the texture shader object.
-	result = m_TextureShader->Initialize(direct3D->getDevice(), hwnd);
+	result = m_TextureShader->initialize(direct3D->getDevice(), hwnd);
 	if (!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the texture shader object.", L"Error", MB_OK);
@@ -284,7 +284,7 @@ bool MainScene::render()
 	for (int i = 0; i < m_Models.size(); ++i) {
 		m_Models[i]->Render(direct3D->getDeviceContext());
 		if (i < 5) {
-			result = m_TextureShader->Render(direct3D->getDeviceContext(), m_Models[i]->GetIndexCount(), objMatrix[i], viewMatrix, projectionMatrix,
+			result = m_TextureShader->render(direct3D->getDeviceContext(), m_Models[i]->GetIndexCount(), objMatrix[i], viewMatrix, projectionMatrix,
 				m_Models[i]->GetTexture());
 			if (!result) {
 				return false;

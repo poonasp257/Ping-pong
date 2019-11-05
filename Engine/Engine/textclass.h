@@ -11,8 +11,8 @@
 ///////////////////////
 // MY CLASS INCLUDES //
 ///////////////////////
-#include "fontclass.h"
-#include "fontshaderclass.h"
+#include "Font.h"
+#include "FontShader.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,8 +67,8 @@ private:
 
 private:
 	D3DXMATRIX					m_baseViewMatrix;
-	FontClass*					m_Font;
-	FontShaderClass*			m_FontShader;
+	Font						*m_Font;
+	FontShader					*m_FontShader;
 	std::vector<SentenceType*>  m_renderInfo;
 	int							m_screenWidth, m_screenHeight;
 	bool						isEnableRenderInfo;

@@ -3,7 +3,7 @@
 
 class Texture {
 private:
-	std::shared_ptr<ID3D11ShaderResourceView> texture;
+	ID3D11ShaderResourceView *texture;
 
 public:
 	Texture();

@@ -33,14 +33,14 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceCont
 	m_baseViewMatrix = baseViewMatrix;
 
 	// Create the font object.
-	m_Font = new FontClass;
+	m_Font = new Font;
 	if(!m_Font)
 	{
 		return false;
 	}
 
 	// Initialize the font object.
-	result = m_Font->Initialize(device, "../Engine/data/fontdata.txt", L"../Engine/data/font.dds");
+	result = m_Font->initialize(device, "../Engine/data/fontdata.txt", L"../Engine/data/font.dds");
 	if(!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the font object.", L"Error", MB_OK);
@@ -48,14 +48,14 @@ bool TextClass::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceCont
 	}
 
 	// Create the font shader object.
-	m_FontShader = new FontShaderClass;
+	m_FontShader = new FontShader;
 	if(!m_FontShader)
 	{
 		return false;
 	}
 
 	// Initialize the font shader object.
-	result = m_FontShader->Initialize(device, hwnd);
+	result = m_FontShader->initialize(device, hwnd);
 	if(!result)
 	{
 		MessageBox(hwnd, L"Could not initialize the font shader object.", L"Error", MB_OK);
@@ -111,7 +111,6 @@ void TextClass::Shutdown()
 	// Release the font shader object.
 	if(m_FontShader)
 	{
-		m_FontShader->Shutdown();
 		delete m_FontShader;
 		m_FontShader = 0;
 	}
@@ -119,7 +118,6 @@ void TextClass::Shutdown()
 	// Release the font object.
 	if(m_Font)
 	{
-		m_Font->Shutdown();
 		delete m_Font;
 		m_Font = 0;
 	}
@@ -293,7 +291,7 @@ bool TextClass::UpdateSentence(SentenceType* sentence, const char* text, int pos
 	drawY = (float)((m_screenHeight / 2) - positionY);
 
 	// Use the font class to build the vertex array from the sentence text and sentence draw location.
-	m_Font->BuildVertexArray((void*)vertices, text, drawX, drawY);
+	m_Font->buildVertexArray((void*)vertices, text, drawX, drawY);
 
 	// Lock the vertex buffer so it can be written to.
 	result = deviceContext->Map(sentence->vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -370,7 +368,7 @@ bool TextClass::RenderSentence(ID3D11DeviceContext* deviceContext, SentenceType*
 	pixelColor = D3DXVECTOR4(sentence->red, sentence->green, sentence->blue, 1.0f);
 
 	// Render the text using the font shader.
-	result = m_FontShader->Render(deviceContext, sentence->indexCount, worldMatrix, m_baseViewMatrix, orthoMatrix, m_Font->GetTexture(), 
+	result = m_FontShader->render(deviceContext, sentence->indexCount, worldMatrix, m_baseViewMatrix, orthoMatrix, m_Font->getTexture(), 
 								  pixelColor);
 	if(!result)
 	{

@@ -12,14 +12,14 @@ private:
 		D3DXVECTOR3 position;
 	    D3DXVECTOR2 texture;
 	};
+	
+private:
+	std::unique_ptr<FontType, std::default_delete<FontType[]>> font;
+	std::shared_ptr<Texture> texture;
 
 private:
 	bool loadFontData(const char*);
 	bool loadTexture(ID3D11Device*, const WCHAR*);
-
-private:
-	FontType* m_Font;
-	TextureClass* m_Texture;
 
 public:
 	Font();
@@ -27,7 +27,7 @@ public:
 
 	bool initialize(ID3D11Device*, const char*, const WCHAR*);
 
-	ID3D11ShaderResourceView* getTexture() const;
+	ID3D11ShaderResourceView* getTexture();
 
 	void buildVertexArray(void*, const char*, float, float);
 };

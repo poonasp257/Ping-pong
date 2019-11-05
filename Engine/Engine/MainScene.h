@@ -1,16 +1,12 @@
 #ifndef MANASCENE_H
 #define MANASCENE_H
 
-/*
-Light class
-ShaderManager
-*/
-
 #include "modelclass.h"
-#include "textureshaderclass.h"
-#include "lightshaderclass.h"
+
+#include "TextureShader.h"
+#include "LightShader.h"
+
 #include "lightclass.h"
-#include "bitmapclass.h"
 #include "textclass.h"
 
 const bool FULL_SCREEN = false;
@@ -34,9 +30,8 @@ private:
 	Camera* m_Camera;
 	std::vector<ModelClass*> m_Models;
 	LightShaderClass* m_LightShader;
-	TextureShaderClass* m_TextureShader;
+	TextureShader* m_TextureShader;
 	LightClass* m_Light;
-	BitmapClass* m_Bitmap;
 	TextClass* m_Text;
 	SkyBox	*m_skyBox;
 };

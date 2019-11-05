@@ -102,7 +102,7 @@ int ModelClass::GetIndexCount()
 
 ID3D11ShaderResourceView* ModelClass::GetTexture()
 {
-	return m_Texture->GetTexture();
+	return m_Texture->getTexture();
 }
 
 
@@ -337,14 +337,14 @@ bool ModelClass::LoadTexture(ID3D11Device* device, const WCHAR* filename)
 
 
 	// Create the texture object.
-	m_Texture = new TextureClass;
+	m_Texture = new Texture;
 	if(!m_Texture)
 	{
 		return false;
 	}
 
 	// Initialize the texture object.
-	result = m_Texture->Initialize(device, filename);
+	result = m_Texture->initialize(device, filename);
 	if(!result)
 	{
 		return false;
@@ -359,7 +359,6 @@ void ModelClass::ReleaseTexture()
 	// Release the texture object.
 	if(m_Texture)
 	{
-		m_Texture->Shutdown();
 		delete m_Texture;
 		m_Texture = 0;
 	}

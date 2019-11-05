@@ -25,16 +25,23 @@
 #include "InputManager.h"
 
 #include "Direct3D.h"
-#include "Camera.h"
 #include "Texture.h"
 #include "Font.h"
-#include "SkyBox.h"
+#include "Bitmap.h"
+
+#include "FontShader.h"
+#include "TextureShader.h"
+#include "LightShader.h"
+#include "ShaderManager.h"
 
 #include "Component.h"
 #include "Transform.h"
 #include "Collider.h"
 #include "BoxCollider.h"
 #include "GameObject.h"
+
+#include "Camera.h"
+#include "SkyBox.h"
 #include "Scene.h"
 
 #include "system.h"
