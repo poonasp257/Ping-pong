@@ -8,7 +8,9 @@ private:
 	D3DXVECTOR3 scale;
 
 public:
-	Transform(GameObject*, const D3DXVECTOR3&, const D3DXVECTOR3&, const D3DXVECTOR3&);
+	Transform(GameObject* gameObject, const D3DXVECTOR3& position = { 0.0f, 0.0f, 0.0f },
+		const D3DXVECTOR3& rotation = { 0.0f, 0.0f, 0.0f },
+		const D3DXVECTOR3& scale = { 1.0f, 1.0f, 1.0f });
 	~Transform();
 
 	void start() {};

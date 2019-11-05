@@ -1,5 +1,5 @@
-#ifndef DEFINE_H
-#define DEFINE_H
+#ifndef TYPE_H
+#define TYPE_H
 
 struct Color {
 	float r;

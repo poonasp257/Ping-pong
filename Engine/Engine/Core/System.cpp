@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "MainScene.h"
+#include "Contents/MainScene.h"
 
 System::System() : fpsManager(std::make_unique<FPSManager>()),
 	cpuManager(std::make_unique<CPUManager>()),

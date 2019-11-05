@@ -25,36 +25,33 @@
 #include <vector>
 #include <list>
 
-#include "Define.h"
+#include "Util/Type.h"
 
-#include "Timer.h"
-#include "FPSManager.h"
-#include "CPUManager.h"
-#include "InputManager.h"
+#include "Components/Component.h"
+#include "Components/Transform.h"
+#include "Components/Collider.h"
+#include "Components/BoxCollider.h"
 
-#include "Direct3D.h"
-#include "Texture.h"
-#include "Font.h"
-#include "Bitmap.h"
+#include "Core/Direct3D.h"
+#include "Core/Camera.h"
+#include "Core/Timer.h"
+#include "Core/FPSManager.h"
+#include "Core/CPUManager.h"
+#include "Core/InputManager.h"
+#include "Core/Light.h"
+#include "Core/Texture.h"
+#include "Core/Model.h"
+#include "Core/Font.h"
+#include "Core/Text.h"
+#include "Core/Bitmap.h"
+#include "Core/SkyBox.h"
+#include "Core/GameObject.h"
+#include "Core/Scene.h"
+#include "Core/System.h"
 
-#include "FontShader.h"
-#include "TextureShader.h"
-#include "LightShader.h"
-#include "ShaderManager.h"
-
-#include "Component.h"
-#include "Transform.h"
-#include "Collider.h"
-#include "BoxCollider.h"
-#include "GameObject.h"
-#include "Scene.h"
-
-#include "Camera.h"
-#include "Model.h"
-#include "Light.h"
-#include "Text.h"
-#include "SkyBox.h"
-
-#include "system.h"
+#include "Shaders/FontShader.h"
+#include "Shaders/TextureShader.h"
+#include "Shaders/LightShader.h"
+#include "Shaders/ShaderManager.h"
 
 #endif

@@ -3,6 +3,8 @@
 
 #define MAX_LENGTH	256
 
+class ShaderManager;
+
 class Text {
 private:
 	struct SentenceType {
