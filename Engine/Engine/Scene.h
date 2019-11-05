@@ -14,7 +14,7 @@ public:
 	Scene();
 	virtual ~Scene();
 
-	virtual bool initialize(int screenWidth, int screenHeight, HWND hwnd) = 0;
+	virtual bool initialize(bool isFullScreen, int screenWidth, int screenHeight, HWND hwnd) = 0;
 	virtual bool frame(int fps, float frameTime, int cpu) = 0;
 };
 #endif

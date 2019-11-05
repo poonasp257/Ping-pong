@@ -1,6 +1,8 @@
 #ifndef LIGHTSHADER_H
 #define LIGHTSHADER_H
 
+class Light;
+
 class LightShader {
 private:
 	struct MatrixBufferType {
@@ -15,11 +17,11 @@ private:
 	};
 
 	struct LightBufferType {
-		D3DXVECTOR4 ambientColor;
-		D3DXVECTOR4 diffuseColor;
 		D3DXVECTOR3 lightDirection;
+		Color ambientColor;
+		Color diffuseColor;
+		Color specularColor;
 		float specularPower;
-		D3DXVECTOR4 specularColor;
 	};
 	
 private:
@@ -35,8 +37,7 @@ private:
 	bool initializeShader(ID3D11Device*, HWND, const WCHAR*, const WCHAR*);
 	void outputShaderErrorMessage(ID3D10Blob*, HWND, const WCHAR*);
 
-	bool setShaderParameters(ID3D11DeviceContext*, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*, D3DXVECTOR3, D3DXVECTOR4, D3DXVECTOR4,
-		D3DXVECTOR3, D3DXVECTOR4, float);
+	bool setShaderParameters(ID3D11DeviceContext*, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*, const Light*, D3DXVECTOR3);
 	void renderShader(ID3D11DeviceContext*, int);
 
 public:
@@ -44,8 +45,7 @@ public:
 	~LightShader();
 
 	bool initialize(ID3D11Device*, HWND);
-	bool render(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*, D3DXVECTOR3, D3DXVECTOR4, D3DXVECTOR4,
-		D3DXVECTOR3, D3DXVECTOR4, float);
+	bool render(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*, const Light*, D3DXVECTOR3);
 	bool setFilter(ID3D11Device *device, D3D11_FILTER filterMode);
 };
 #endif

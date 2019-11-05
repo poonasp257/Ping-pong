@@ -10,23 +10,22 @@ class MainScene;
 
 class System {
 private:
-	void initializeWindows(int&, int&);
-	void shutdownWindows();
-	bool frame();
-
-private:
 	LPCWSTR applicationName;
 	HINSTANCE hinstance;
 	HWND hwnd;
+	bool isFullScreen;
 
 	std::unique_ptr<Scene>	scene;
 	std::unique_ptr<FPSManager> fpsManager;
 	std::unique_ptr<CPUManager> cpuManager;
 	std::unique_ptr<Timer>		timer;
 
+private:
+	void initializeWindows(int&, int&);
+	bool frame();
+
 public:
 	System();
-	System(const System&);
 	~System();
 
 	bool initialize();

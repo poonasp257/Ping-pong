@@ -138,15 +138,15 @@
     <ClCompile Include="FPSManager.cpp" />
     <ClCompile Include="MainScene.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="lightClass.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightShader.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="modelclass.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="System.cpp" />
-    <ClCompile Include="textclass.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureShader.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -159,6 +159,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="CPUManager.h" />
+    <ClInclude Include="Define.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ShaderManager.h" />
@@ -169,12 +170,12 @@
     <ClInclude Include="FPSManager.h" />
     <ClInclude Include="MainScene.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="lightClass.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="LightShader.h" />
-    <ClInclude Include="modelclass.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="System.h" />
-    <ClInclude Include="textclass.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureShader.h" />
     <ClInclude Include="Timer.h" />

@@ -11,11 +11,10 @@ public:
 	ShaderManager();
 	~ShaderManager();
 
-	bool initialize(ID3D11Device*, HWND, D3DXMATRIX);
+	bool initialize(ID3D11Device*, HWND);
 
-	bool renderTextureShader(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*);
-	bool renderFontShader(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*, D3DXVECTOR4);
-	bool renderLightShader(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX, ID3D11ShaderResourceView*, D3DXVECTOR3, D3DXVECTOR4, D3DXVECTOR4,
-		D3DXVECTOR3, D3DXVECTOR4, float);
+	TextureShader* const getTextureShader() const { return textureShader.get(); }
+	FontShader* const getFontShader() const { return fontShader.get(); }
+	LightShader* const getLightShader() const { return lightShader.get(); }
 };
 #endif

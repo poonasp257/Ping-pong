@@ -1,23 +1,39 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-class Component;
-
 class GameObject {
-protected:
+private:
+	bool isActivated;
 	std::string name;
-	std::vector<Component> components;
-	//Model mesh;
-	bool isEnable;
+	std::string tag;
+	std::vector<GameObject*> children;
+	std::vector<std::shared_ptr<Component>> components;
+	std::shared_ptr<Transform> transform;
 
 public:
-	GameObject();
+	static std::list<GameObject*> gameObjects;
+
+public:
+	GameObject(const std::string& name, const std::string& tag);
 	~GameObject();
 
-	/*void addComponent();
-	Component getComponent();
+	virtual void update();
 
-	static GameObject Find(std::string& name);
-	static void Destroy(GameObject *gameObject);*/
+	bool activeSelf() const { return isActivated; }
+	void setActive(bool active) { isActivated = active; }
+
+	std::string getName() const { return name; }
+	std::string getTag() const { return tag; }
+	Transform* getTransform() { return transform.get(); }
+
+	template<typename T>
+	void AddComponent();
+
+	template<typename T>
+	T* GetComponent();
+
+public:
+	static GameObject* Find(const std::string& name);
+	static void Destoy(GameObject *object);
 };
 #endif

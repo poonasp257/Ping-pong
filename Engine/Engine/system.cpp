@@ -4,16 +4,23 @@
 System::System() : fpsManager(std::make_unique<FPSManager>()),
 	cpuManager(std::make_unique<CPUManager>()),
 	timer(std::make_unique<Timer>()), 
-	scene(std::make_unique<MainScene>()) {
+	scene(std::make_unique<MainScene>()),
+	isFullScreen(false) {
 		
 }
 
-System::System(const System& other) {
-
-}
-
 System::~System() {
-	shutdownWindows();
+	ShowCursor(true);
+
+	ChangeDisplaySettings(NULL, 0);
+
+	DestroyWindow(hwnd);
+	hwnd = NULL;
+
+	UnregisterClass(applicationName, hinstance);
+	hinstance = NULL;
+
+	ApplicationHandle = NULL;
 }
 
 bool System::initialize() {
@@ -27,7 +34,7 @@ bool System::initialize() {
 
 	Input.Initiailize(hinstance, hwnd);
 
-	result = scene->initialize(screenWidth, screenHeight, hwnd);
+	result = scene->initialize(isFullScreen, screenWidth, screenHeight, hwnd);
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialize the Scene object.", L"Error", MB_OK);
 		return false;
@@ -65,7 +72,9 @@ void System::run() {
 bool System::frame() {
 	Input.DetectInput(hwnd);
 	
-	if (Input.GetKeyDown(DIK_ESCAPE)) return false;
+	if (Input.GetKeyDown(DIK_ESCAPE)) {
+		return false;
+	}
 
 	timer->frame();
 	fpsManager->frame();
@@ -105,7 +114,7 @@ void System::initializeWindows(int& screenWidth, int& screenHeight) {
 	screenWidth  = GetSystemMetrics(SM_CXSCREEN);
 	screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-	if(FULL_SCREEN) {
+	if(isFullScreen) {
 		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
 		dmScreenSettings.dmSize       = sizeof(dmScreenSettings);
 		dmScreenSettings.dmPelsWidth  = (unsigned long)screenWidth;
@@ -135,21 +144,6 @@ void System::initializeWindows(int& screenWidth, int& screenHeight) {
 	SetFocus(hwnd);
 
 	ShowCursor(false);
-}
-
-
-void System::shutdownWindows() {
-	ShowCursor(true);
-
-	if(FULL_SCREEN) ChangeDisplaySettings(NULL, 0);
-
-	DestroyWindow(hwnd);
-	hwnd = NULL;
-
-	UnregisterClass(applicationName, hinstance);
-	hinstance = NULL;
-
-	ApplicationHandle = NULL;
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam) {

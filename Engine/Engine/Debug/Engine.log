@@ -1,9 +1,0 @@
-﻿  MainScene.cpp
-c:\users\junyoung lee\desktop\github\ping-pong\engine\engine\mainscene.cpp(244): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
-c:\users\junyoung lee\desktop\github\ping-pong\engine\engine\mainscene.cpp(249): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
-c:\users\junyoung lee\desktop\github\ping-pong\engine\engine\mainscene.cpp(254): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
-c:\users\junyoung lee\desktop\github\ping-pong\engine\engine\mainscene.cpp(259): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
-c:\users\junyoung lee\desktop\github\ping-pong\engine\engine\mainscene.cpp(271): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  System.cpp
-  코드를 생성하고 있습니다...
-  Engine.vcxproj -> C:\Users\JunYoung Lee\Desktop\Github\Ping-pong\Engine\Debug\Engine.exe

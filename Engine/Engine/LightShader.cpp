@@ -56,12 +56,11 @@ bool LightShader::initialize(ID3D11Device* device, HWND hwnd) {
 
 bool LightShader::render(ID3D11DeviceContext* deviceContext, int indexCount, D3DXMATRIX worldMatrix,
 	D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix, ID3D11ShaderResourceView* texture,
-	D3DXVECTOR3 lightDirection, D3DXVECTOR4 ambientColor, D3DXVECTOR4 diffuseColor,
-	D3DXVECTOR3 cameraPosition, D3DXVECTOR4 specularColor, float specularPower)  {
+	const Light* light, D3DXVECTOR3 cameraPosition) {
 	bool result;
 
 	result = setShaderParameters(deviceContext, worldMatrix, viewMatrix, projectionMatrix, texture,
-		lightDirection, ambientColor, diffuseColor, cameraPosition, specularColor, specularPower);
+		light, cameraPosition);
 	if(!result) return false;
 
 	renderShader(deviceContext, indexCount);
@@ -229,8 +228,7 @@ void LightShader::outputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, 
 
 bool LightShader::setShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix,
 	D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix, ID3D11ShaderResourceView* texture,
-	D3DXVECTOR3 lightDirection, D3DXVECTOR4 ambientColor, D3DXVECTOR4 diffuseColor,
-	D3DXVECTOR3 cameraPosition, D3DXVECTOR4 specularColor, float specularPower) {
+	const Light* light, D3DXVECTOR3 cameraPosition) {
 	HRESULT result;
     D3D11_MAPPED_SUBRESOURCE mappedResource;
 	unsigned int bufferNumber;
@@ -261,10 +259,10 @@ bool LightShader::setShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMA
 	if (FAILED(result)) return false;
 
 	dataPtr2 = (LightBufferType*)mappedResource.pData;
-	dataPtr2->diffuseColor = diffuseColor;
-	dataPtr2->lightDirection = lightDirection;
-	dataPtr2->specularColor = specularColor;
-	dataPtr2->specularPower = specularPower;
+	dataPtr2->diffuseColor = light->getDiffuseColor();
+	dataPtr2->lightDirection = light->getDirection();
+	dataPtr2->specularColor = light->getSpecularColor();
+	dataPtr2->specularPower = light->getSpecularPower();
 
 	result = deviceContext->Map(cameraBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result)) return false;
@@ -272,14 +270,12 @@ bool LightShader::setShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMA
 	dataPtr3 = (CameraBufferType*)mappedResource.pData;
 	dataPtr3->cameraPosition = cameraPosition;
 	dataPtr3->padding = 0.0f;
-	deviceContext->Unmap(cameraBuffer, 0);
+	deviceContext->Unmap(cameraBuffer, 0);
 	bufferNumber = 1;
-
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &cameraBuffer);
+
 	deviceContext->Unmap(lightBuffer, 0);
-
 	bufferNumber = 0;
-
 	deviceContext->PSSetConstantBuffers(bufferNumber, 1, &lightBuffer);
 
 	return true;

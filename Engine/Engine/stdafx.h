@@ -13,11 +13,19 @@
 #include <d3dx11tex.h>
 #include <dinput.h>
 
-#include <fstream>
+#include <cstdlib>
+#include <cstdarg>
+#include <string>
 #include <memory>
 #include <algorithm>
 #include <functional>
+#include <fstream>
+
+#include <array>
 #include <vector>
+#include <list>
+
+#include "Define.h"
 
 #include "Timer.h"
 #include "FPSManager.h"
@@ -42,9 +50,9 @@
 #include "Scene.h"
 
 #include "Camera.h"
-#include "modelclass.h"
-#include "lightclass.h"
-#include "textclass.h"
+#include "Model.h"
+#include "Light.h"
+#include "Text.h"
 #include "SkyBox.h"
 
 #include "system.h"

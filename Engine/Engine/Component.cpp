@@ -1,12 +1,10 @@
 #include "stdafx.h"
-#include "Component.h"
 
+Component::Component(GameObject* gameObject, Transform* transform) 
+	: gameObject(gameObject), transform(transform) {
 
-Component::Component()
-{
 }
 
+Component::~Component() {
 
-Component::~Component()
-{
 }
