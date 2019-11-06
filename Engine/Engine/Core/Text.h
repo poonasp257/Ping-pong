@@ -37,7 +37,7 @@ public:
 	Text(const ShaderManager* shaderManager);
 	~Text();
 
-	bool initialize(ID3D11Device*, ID3D11DeviceContext*, HWND, int, int, D3DXMATRIX);
+	bool initialize(HWND, ID3D11Device*, ID3D11DeviceContext*, int, int, D3DXMATRIX);
 	void render(ID3D11DeviceContext*, D3DXMATRIX, D3DXMATRIX);
 
 	bool setCameraPosition(const D3DXVECTOR3&, ID3D11DeviceContext*);

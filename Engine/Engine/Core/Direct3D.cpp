@@ -14,10 +14,6 @@ Direct3D::Direct3D() {
 	alphaDisableBlendingState = 0;
 }
 
-Direct3D::Direct3D(const Direct3D& other) {
-
-}
-
 Direct3D::~Direct3D() {
 	if (swapChain) {
 		swapChain->SetFullscreenState(false, NULL);

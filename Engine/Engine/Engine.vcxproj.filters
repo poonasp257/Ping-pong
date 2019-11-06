@@ -7,9 +7,6 @@
     <Filter Include="Contents">
       <UniqueIdentifier>{5da4efc5-03cf-419e-b846-a078568a8e5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scripts">
-      <UniqueIdentifier>{d7926f6d-6bd1-40ec-a89d-48bc152c0156}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{57853b51-a539-4875-870d-0d5d06337288}</UniqueIdentifier>
     </Filter>
@@ -100,6 +97,15 @@
     <ClInclude Include="Shaders\TextureShader.h">
       <Filter>Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="Contents\EnemyController.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="Contents\PlayerController.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="Contents\Ball.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\BoxCollider.cpp">
@@ -178,6 +184,15 @@
     </ClCompile>
     <ClCompile Include="Shaders\TextureShader.cpp">
       <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Contents\EnemyController.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="Contents\PlayerController.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="Contents\Ball.cpp">
+      <Filter>Contents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

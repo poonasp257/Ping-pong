@@ -31,7 +31,7 @@ bool Model::initialize(ID3D11Device* device, const WCHAR* textureFilename) {
 	return true;
 }
 
-bool Model::initialize(ID3D11Device* device, const char* modelFilename, const WCHAR* textureFilename) {
+bool Model::initialize(ID3D11Device* device, const WCHAR* modelFilename, const WCHAR* textureFilename) {
 	bool result;
 
 	result = loadModel(modelFilename);
@@ -197,7 +197,7 @@ bool Model::loadTexture(ID3D11Device* device, const WCHAR* filename) {
 	return true;
 }
 
-bool Model::readFileCounts(const char* fileName, int& textureCount, int& normalCount, int& faceCount) {
+bool Model::readFileCounts(const WCHAR* fileName, int& textureCount, int& normalCount, int& faceCount) {
 	std::ifstream fin;
 	char input;
 
@@ -233,7 +233,7 @@ bool Model::readFileCounts(const char* fileName, int& textureCount, int& normalC
 	return true;
 }
 
-bool Model::loadModel(const char* fileName) {
+bool Model::loadModel(const WCHAR* fileName) {
 	std::ifstream fin;
 	int textureCount, normalCount, faceCount;
 	int vertexIndex, texcoordIndex, normalIndex, faceIndex, vIndex, tIndex, nIndex, mIndex;

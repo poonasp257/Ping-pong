@@ -23,7 +23,6 @@ private:
 
 public:
 	Direct3D();
-	Direct3D(const Direct3D&);
 	~Direct3D();
 
 	bool initialize(int, int, bool, HWND, bool, float, float);
@@ -45,5 +44,10 @@ public:
 
 	void turnOnAlphaBlending();
 	void turnOffAlphaBlending();
+public:
+	static Direct3D& Instance() { 
+		static Direct3D instance;
+		return instance;
+	}
 };
 #endif

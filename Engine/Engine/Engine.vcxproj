@@ -23,7 +23,10 @@
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Components\Transform.h" />
+    <ClInclude Include="Contents\Ball.h" />
+    <ClInclude Include="Contents\EnemyController.h" />
     <ClInclude Include="Contents\MainScene.h" />
+    <ClInclude Include="Contents\PlayerController.h" />
     <ClInclude Include="Core\Bitmap.h" />
     <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\CPUManager.h" />
@@ -52,7 +55,10 @@
     <ClCompile Include="Components\Collider.cpp" />
     <ClCompile Include="Components\Component.cpp" />
     <ClCompile Include="Components\Transform.cpp" />
+    <ClCompile Include="Contents\Ball.cpp" />
+    <ClCompile Include="Contents\EnemyController.cpp" />
     <ClCompile Include="Contents\MainScene.cpp" />
+    <ClCompile Include="Contents\PlayerController.cpp" />
     <ClCompile Include="Core\Bitmap.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\CPUManager.cpp" />

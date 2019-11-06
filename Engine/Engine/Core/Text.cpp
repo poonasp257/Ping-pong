@@ -11,7 +11,7 @@ Text::~Text() {
 	}
 }
 
-bool Text::initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContext, HWND hwnd, int screenWidth, int screenHeight, 
+bool Text::initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext* deviceContext, int screenWidth, int screenHeight,
 						   D3DXMATRIX viewMatrix) {
 	bool result;
 

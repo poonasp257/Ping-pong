@@ -34,15 +34,15 @@ private:
 
 	bool createPrimitive(ID3D11Device*);
 
-	bool readFileCounts(const char*, int&, int&, int&);
-	bool loadModel(const char*);
+	bool readFileCounts(const WCHAR*, int&, int&, int&);
+	bool loadModel(const WCHAR*);
 
 public:
 	Model();
 	~Model();
 
 	bool initialize(ID3D11Device*, const WCHAR*);
-	bool initialize(ID3D11Device*, const char*, const WCHAR*);
+	bool initialize(ID3D11Device*, const WCHAR*, const WCHAR*);
 	void render(ID3D11DeviceContext*);
 
 	int getIndexCount() const { return indexCount; }

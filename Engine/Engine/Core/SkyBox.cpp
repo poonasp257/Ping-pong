@@ -92,6 +92,7 @@ bool SkyBox::createSphere(ID3D11Device* device, int latLines, int longLines) {
 	vertexBufferData.pSysMem = &vertices[0];
 	device->CreateBuffer(&vertexBufferDesc, &vertexBufferData, &sphereVertBuffer);
 	
+
 	std::vector<DWORD> indices(numSphereFaces * 3);
 
 	int k = 0;

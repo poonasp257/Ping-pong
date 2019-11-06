@@ -11,7 +11,7 @@ public:
 	ShaderManager();
 	~ShaderManager();
 
-	bool initialize(ID3D11Device*, HWND);
+	bool initialize(ID3D11Device *device, HWND hwnd);
 
 	TextureShader* const getTextureShader() const { return textureShader.get(); }
 	FontShader* const getFontShader() const { return fontShader.get(); }

@@ -11,7 +11,7 @@ ShaderManager::~ShaderManager() {
 
 }
 
-bool ShaderManager::initialize(ID3D11Device* device, HWND hwnd) {
+bool ShaderManager::initialize(ID3D11Device *device, HWND hwnd) {
 	bool result;
 
 	result = textureShader->initialize(device, hwnd);

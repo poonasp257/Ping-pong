@@ -6,7 +6,7 @@ class Direct3D;
 class Scene {
 protected:
 	std::unique_ptr<Direct3D> direct3D;
-	
+
 protected:
 	virtual bool render() = 0;
 

@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "MainScene.h"
+#include "Ball.h"
+#include "PlayerController.h"
+#include "EnemyController.h"
 
 MainScene::MainScene() : Scene(), shaderManager(new ShaderManager),
 	mainCamera(new Camera), skyBox(new SkyBox),
@@ -20,41 +23,21 @@ bool MainScene::initialize(bool isFullScreen, int screenWidth, int screenHeight,
 		return false;
 	}
 
+	device = direct3D->getDevice();
+	deviceContext = direct3D->getDeviceContext();
+
 	mainCamera->setPosition(0.0f, 0.0f, -40.0f);
 
-	const char* fileNames[] = {
-		"../Engine/data/doll.obj",
-		"../Engine/data/sword.obj"
-	};
+	std::shared_ptr<GameObject> player = std::make_shared<Ball>(device, deviceContext, "Player");
+	std::shared_ptr<GameObject> enemy = std::make_shared<Ball>(device, deviceContext, "Enemy");
+	
+	player->AddComponent<PlayerController>();
+	enemy->AddComponent<EnemyController>();
+	
+	gameObjects.push_back(player);
+	gameObjects.push_back(enemy);
 
-	const WCHAR* textures[] = {
-		L"../Engine/data/t_doll.dds",
-		L"../Engine/data/t_sword.dds"
-	};
-
-	for (int i = 0; i < 5; ++i) {
-		Model* newModel = new Model;
-		result = newModel->initialize(direct3D->getDevice(), L"../Engine/data/seafloor.dds");
-		if (!result) {
-			MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
-			return false;
-		}
-
-		m_Models.push_back(newModel);
-	}
-
-	for (int i = 0; i < 2; ++i) {
-		Model* newModel = new Model;
-		result = newModel->initialize(direct3D->getDevice(), fileNames[i], textures[i]);
-		if (!result) {
-			MessageBox(hwnd, L"Could not initialize the model object.", L"Error", MB_OK);
-			return false;
-		}
-
-		m_Models.push_back(newModel);
-	}
-
-	shaderManager->initialize(direct3D->getDevice(), hwnd);
+	shaderManager->initialize(device, hwnd);
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialize the shader manager object.", L"Error", MB_OK);
 		return false;
@@ -71,23 +54,23 @@ bool MainScene::initialize(bool isFullScreen, int screenWidth, int screenHeight,
 	mainCamera->render();
 	mainCamera->getViewMatrix(baseViewMatrix);
 	
-	result = text->initialize(direct3D->getDevice(), direct3D->getDeviceContext(), hwnd, screenWidth,
+	result = text->initialize(hwnd, device, deviceContext, screenWidth,
 		screenHeight, baseViewMatrix);
 	if (!result) {
 		MessageBox(hwnd, L"Could not initialize the text object.", L"Error", MB_OK);
 		return false;
 	}
 
-	result = text->setNumOfObjects(m_Models.size(), direct3D->getDeviceContext());
+	result = text->setNumOfObjects(m_Models.size(), deviceContext);
 	if (!result) return false;
 
 	int numOfPolygons = 0;
 	for (auto model : m_Models) numOfPolygons += model->getPolygonCount();
 
-	result = text->setNumOfPolygons(numOfPolygons, direct3D->getDeviceContext());
+	result = text->setNumOfPolygons(numOfPolygons, deviceContext);
 	if (!result) return false;
 
-	result = skyBox->initialize(direct3D->getDevice(), hwnd, L"../Engine/data/skymap.dds");
+	result = skyBox->initialize(device, hwnd, L"../Engine/data/skymap.dds");
 	if (!result) return false;
 
 	return true;
@@ -96,18 +79,18 @@ bool MainScene::initialize(bool isFullScreen, int screenWidth, int screenHeight,
 bool MainScene::frame(int fps, float frameTime, int cpu) {
 	bool result;
 
-	/*if (Input.GetKeyDown(DIK_1)) {
-		lightShader->setFilter(direct3D->getDevice(), D3D11_FILTER_MIN_MAG_MIP_POINT);
+	if (Input.GetKeyDown(DIK_1)) {
+		shaderManager->getLightShader()->setFilter(device, D3D11_FILTER_MIN_MAG_MIP_POINT);
 	}
 	else if (Input.GetKeyDown(DIK_2)) {
-		lightShader->setFilter(direct3D->getDevice(), D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT);
+		shaderManager->getLightShader()->setFilter(device, D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT);
 	}
 	else if (Input.GetKeyDown(DIK_3)) {
-		lightShader->setFilter(direct3D->getDevice(), D3D11_FILTER_MIN_MAG_MIP_LINEAR);
+		shaderManager->getLightShader()->setFilter(device, D3D11_FILTER_MIN_MAG_MIP_LINEAR);
 	}
 	else if (Input.GetKeyDown(DIK_4)) {
-		lightShader->setFilter(direct3D->getDevice(), D3D11_FILTER_ANISOTROPIC);
-	}*/
+		shaderManager->getLightShader()->setFilter(device, D3D11_FILTER_ANISOTROPIC);
+	}
 
 	mainCamera->frame(frameTime);
 
@@ -115,13 +98,13 @@ bool MainScene::frame(int fps, float frameTime, int cpu) {
 		text->turnOnOffRenderInfo();
 	}
 
-	result = text->setCameraPosition(mainCamera->getPosition(), direct3D->getDeviceContext());
+	result = text->setCameraPosition(mainCamera->getPosition(), deviceContext);
 	if (!result) return false;
 
-	result = text->setFPS(fps, direct3D->getDeviceContext());
+	result = text->setFPS(fps, deviceContext);
 	if (!result) return false;
 
-	result = text->setCPU(cpu, direct3D->getDeviceContext());
+	result = text->setCPU(cpu, deviceContext);
 	if (!result) return false;
 
 	result = render();
@@ -138,7 +121,6 @@ bool MainScene::render() {
 	direct3D->beginScene(0.0f, 0.0f, 0.0f, 1.0f);
 
 	mainCamera->render();
-
 	mainCamera->getViewMatrix(viewMatrix);
 	mainCamera->getProjectionMatrix(newProjectionMatrix);
 			  
@@ -146,57 +128,17 @@ bool MainScene::render() {
 	direct3D->getProjectionMatrix(projectionMatrix);
 	direct3D->getOrthoMatrix(orthoMatrix);
 
-	D3DXMATRIX objMatrix[8], matRot;
-	for (int i = 0; i < 8; ++i) {
-		objMatrix[i] = worldMatrix;
-	}
+	//for (auto& gameObject : gameObjects) {
+	//	gameObject->Update();
 
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixTranslation(&objMatrix[1], 0.0f, -10.0f, 10.0f);
-	D3DXMatrixRotationX(&matRot, D3DXToRadian(90.0f));
-	D3DXMatrixMultiply(&objMatrix[1], &objMatrix[1], &matRot);
+	//	/*auto lightShader = shaderManager->getLightShader();
+	//	result = lightShader->render(deviceContext,
+	//		m_Models[i]->getIndexCount(), objMatrix[i], viewMatrix, projectionMatrix,
+	//		m_Models[i]->getTexture(), light.get(), mainCamera->getPosition());
+	//	if (!result) return false;*/
+	//}
 
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixTranslation(&objMatrix[2], 0.0f, 10.0f, 10.0f);
-	D3DXMatrixRotationX(&matRot, D3DXToRadian(-90.0f));
-	D3DXMatrixMultiply(&objMatrix[2], &objMatrix[2], &matRot);
 
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixTranslation(&objMatrix[3], 10.0f, 0.0f, 10.0f);
-	D3DXMatrixRotationY(&matRot, D3DXToRadian(90.0f));
-	D3DXMatrixMultiply(&objMatrix[3], &objMatrix[3], &matRot);
-
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixTranslation(&objMatrix[4], -10.0f, 0.0f, 10.0f);
-	D3DXMatrixRotationY(&matRot, D3DXToRadian(-90.0f));
-	D3DXMatrixMultiply(&objMatrix[4], &objMatrix[4], &matRot);
-
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixTranslation(&objMatrix[5], -5.0f, -9.0f, -5.0f);
-
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixTranslation(&objMatrix[6], 0.0f, -9.0f, -5.0f);
-
-	D3DXMatrixIdentity(&matRot);
-	D3DXMatrixTranslation(&objMatrix[7], 5.0f, -9.0f, -5.0f);
- 
-	for (int i = 0; i < 5; ++i) {
-		m_Models[i]->render(direct3D->getDeviceContext());
-		if (i < 5) {
-			result = shaderManager->getTextureShader()->render(
-				direct3D->getDeviceContext(), m_Models[i]->getIndexCount(), objMatrix[i], viewMatrix, projectionMatrix,
-				m_Models[i]->getTexture());
-			if (!result) return false;
-
-			continue;
-		}
-
-		result = shaderManager->getLightShader()->render(direct3D->getDeviceContext(), 
-			m_Models[i]->getIndexCount(), objMatrix[i], viewMatrix, projectionMatrix,
-			m_Models[i]->getTexture(), light.get(), mainCamera->getPosition());
-		if (!result) return false;
-	}
-	
 	D3DXMATRIX sphereWorld, sphereScale, sphereTranslation;
 	D3DXVECTOR3 cameraPos = mainCamera->getPosition();
 	D3DXMatrixIdentity(&sphereWorld);
@@ -205,12 +147,12 @@ bool MainScene::render() {
 	D3DXMatrixTranslation(&sphereTranslation, cameraPos.x, cameraPos.y, cameraPos.z);
 	sphereWorld = sphereScale * sphereTranslation;
 
-	skyBox->render(direct3D->getDeviceContext(), sphereWorld, viewMatrix, newProjectionMatrix);
+	skyBox->render(deviceContext, sphereWorld, viewMatrix, newProjectionMatrix);
 
 	direct3D->turnZBufferOff();
 	direct3D->turnOnAlphaBlending();
 
-	text->render(direct3D->getDeviceContext(), worldMatrix, orthoMatrix);
+	text->render(deviceContext, worldMatrix, orthoMatrix);
 	
 	direct3D->turnOffAlphaBlending();
 	direct3D->turnZBufferOn();
