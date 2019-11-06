@@ -2,11 +2,19 @@
 #define BOXCOLLIDER_H
 
 class BoxCollider : public Collider {
-public:
-	BoxCollider(GameObject* gameObject, Transform* transform);
-	~BoxCollider();
+private:
+	float minX, minY, minZ;
+	float maxX, maxY, maxZ;
+
+protected:
+	void start();
+	void update();
+
+	bool collide(Collider *collider);
+	bool collide(BoxCollider *collider);
 
 public:
-	bool Collide() { return false; }
+	BoxCollider(GameObject* gameObject, Transform* transform);
+	virtual ~BoxCollider();
 };
 #endif

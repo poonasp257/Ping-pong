@@ -7,23 +7,24 @@ private:
 	std::vector<std::shared_ptr<Component>> components;
 	std::shared_ptr<Transform> transform;
 
+	ID3D11Device		*device;
+	ID3D11DeviceContext	*deviceContext;
+
+	static std::list<GameObject*> gameObjects;
+
 protected:
 	bool isActivated;
 	std::string name;
 	std::string tag;
 	std::unique_ptr<Model> model;
 
-protected:
-	virtual void update();
-
 public:
-	static std::list<GameObject*> gameObjects;
-
-public:
-	GameObject(const std::string& name, const std::string& tag);
+	GameObject(ID3D11Device*, ID3D11DeviceContext*, const std::string&, const std::string&);
 	~GameObject();
 
-	void Update();
+	void update();
+	void loadModel(const WCHAR* textureFilename);
+	void loadModel(const WCHAR* modelFilename, const WCHAR* textureFilename);
 
 	bool activeSelf() const { return isActivated; }
 	void setActive(bool active) { isActivated = active; }
@@ -31,6 +32,7 @@ public:
 	std::string getName() const { return name; }
 	std::string getTag() const { return tag; }
 	Transform* getTransform() { return transform.get(); }
+	Model* getModel() { return model.get(); }
 
 	template<typename T>
 	T* AddComponent() {
@@ -40,7 +42,7 @@ public:
 			return nullptr;
 		}
 
-		component->start();
+		component->Start();
 		components.push_back(component);
 
 		return component.get();
@@ -56,8 +58,9 @@ public:
 		return nullptr;
 	}
 
-public:
 	static GameObject* Find(const std::string& name);
 	static void Destoy(GameObject *object);
+
+	friend class Collider;
 };
 #endif

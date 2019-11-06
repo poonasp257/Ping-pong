@@ -2,8 +2,11 @@
 
 std::list<GameObject*> GameObject::gameObjects;
 
-GameObject::GameObject(const std::string& name = "unknown", const std::string& tag = "unknown")
-	: isActivated(true), name(name), tag(tag), transform(new Transform(this)), model(new Model) {
+GameObject::GameObject(ID3D11Device *device, ID3D11DeviceContext *deviceContext,
+	const std::string& name = "unknown", const std::string& tag = "unknown")
+	: isActivated(true), name(name), tag(tag), 
+	transform(new Transform(this)), model(new Model),
+	device(device), deviceContext(deviceContext) {
 	components.push_back(transform);
 	gameObjects.push_back(this);
 }
@@ -16,14 +19,18 @@ GameObject::~GameObject() {
 }
 
 void GameObject::update() {
-
-}
-
-void GameObject::Update() {
-	for (auto comp : components) comp->update();
+	for (auto comp : components) comp->Update();
 	for (auto child : children) child->update();
 
-	this->update();
+	model->render(deviceContext);
+}
+
+void GameObject::loadModel(const WCHAR* textureFilename) {
+	model->initialize(device, textureFilename);
+}
+
+void GameObject::loadModel(const WCHAR* modelFilename, const WCHAR* textureFilename) {
+	model->initialize(device, modelFilename, textureFilename);
 }
 
 GameObject* GameObject::Find(const std::string& name) {
@@ -45,5 +52,6 @@ GameObject* GameObject::Find(const std::string& name) {
 }
 
 void GameObject::Destoy(GameObject *object) {
-	gameObjects.remove(object);
+	//gameObjects.remove(object);
+	object->setActive(false);
 }

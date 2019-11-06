@@ -103,8 +103,11 @@
     <ClInclude Include="Contents\PlayerController.h">
       <Filter>Contents</Filter>
     </ClInclude>
-    <ClInclude Include="Contents\Ball.h">
+    <ClInclude Include="Contents\BounceBall.h">
       <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Sound.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,8 +194,11 @@
     <ClCompile Include="Contents\PlayerController.cpp">
       <Filter>Contents</Filter>
     </ClCompile>
-    <ClCompile Include="Contents\Ball.cpp">
+    <ClCompile Include="Contents\BounceBall.cpp">
       <Filter>Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Sound.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

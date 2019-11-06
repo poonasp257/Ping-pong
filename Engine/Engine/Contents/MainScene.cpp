@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "MainScene.h"
-#include "Ball.h"
+#include "BounceBall.h"
 #include "PlayerController.h"
 #include "EnemyController.h"
 
 MainScene::MainScene() : Scene(), shaderManager(new ShaderManager),
 	mainCamera(new Camera), skyBox(new SkyBox),
-	light(new Light), text(nullptr) {
+	light(new Light), text(nullptr), bgm(new Sound) {
 	text = std::make_unique<Text>(shaderManager.get());
 }
 
@@ -26,14 +26,43 @@ bool MainScene::initialize(bool isFullScreen, int screenWidth, int screenHeight,
 	device = direct3D->getDevice();
 	deviceContext = direct3D->getDeviceContext();
 
-	mainCamera->setPosition(0.0f, 0.0f, -40.0f);
+	bgm->Initialize(hwnd, "../Engine/data/BGM.wav");
+	bgm->PlayWaveFile(-500, true);
 
-	std::shared_ptr<GameObject> player = std::make_shared<Ball>(device, deviceContext, "Player");
-	std::shared_ptr<GameObject> enemy = std::make_shared<Ball>(device, deviceContext, "Enemy");
+	mainCamera->setPosition(0.0f, 30.0f, -80.0f);
+	   
+	std::shared_ptr<GameObject> court = std::make_shared<GameObject>(device, deviceContext, "Court", "Props");
+	court->loadModel(L"../Engine/data/Tennis-Court.obj", L"../Engine/data/Tennis-Court.dds");
+	court->getTransform()->setPosition({ 0.0f, -30.0f, 30.0f });
 	
+	std::shared_ptr<GameObject> ball = std::make_shared<GameObject>(device, deviceContext, "Ball", "Ball");
+	ball->loadModel(L"../Engine/data/tennisball.obj", L"../Engine/data/seafloor.dds");
+	ball->getTransform()->setPosition({ 0.0f, 0.0f, -45.0f });
+	ball->getTransform()->setScale({ 0.01f, 0.01f, 0.01f });
+
+	auto bounceBall = ball->AddComponent<BounceBall>();
+	bounceBall->loadSound(hwnd, "../Engine/data/tennis_hit.wav");
+
+	ball->AddComponent<BoxCollider>();
+
+	std::shared_ptr<GameObject> player = std::make_shared<GameObject>(device, deviceContext, "Player", "Character");
+	player->loadModel(L"../Engine/data/cat.obj", L"../Engine/data/cat.dds");
+	player->getTransform()->setPosition({ 0.0f, 0.0f, -55.0f });
+	player->getTransform()->setScale({ 0.1f, 0.1f, 0.1f });
+
 	player->AddComponent<PlayerController>();
+	player->AddComponent<BoxCollider>();
+
+	std::shared_ptr<GameObject> enemy = std::make_shared<GameObject>(device, deviceContext, "Enemy", "Character");
+	enemy->loadModel(L"../Engine/data/PenguinBaseMesh.obj", L"../Engine/data/penguin.dds");
+	enemy->getTransform()->setPosition({ 0.0f, -3.0f, 10.0f });
+	enemy->getTransform()->setScale({ 5.0f, 5.0f, 5.0f });
+
 	enemy->AddComponent<EnemyController>();
-	
+	enemy->AddComponent<BoxCollider>();
+
+	gameObjects.push_back(court);
+	gameObjects.push_back(ball);
 	gameObjects.push_back(player);
 	gameObjects.push_back(enemy);
 
@@ -60,7 +89,7 @@ bool MainScene::initialize(bool isFullScreen, int screenWidth, int screenHeight,
 		MessageBox(hwnd, L"Could not initialize the text object.", L"Error", MB_OK);
 		return false;
 	}
-
+	
 	result = text->setNumOfObjects(m_Models.size(), deviceContext);
 	if (!result) return false;
 
@@ -128,15 +157,20 @@ bool MainScene::render() {
 	direct3D->getProjectionMatrix(projectionMatrix);
 	direct3D->getOrthoMatrix(orthoMatrix);
 
-	//for (auto& gameObject : gameObjects) {
-	//	gameObject->Update();
+	for (auto& gameObject : gameObjects) {
+		if (!gameObject->activeSelf()) continue;
 
-	//	/*auto lightShader = shaderManager->getLightShader();
-	//	result = lightShader->render(deviceContext,
-	//		m_Models[i]->getIndexCount(), objMatrix[i], viewMatrix, projectionMatrix,
-	//		m_Models[i]->getTexture(), light.get(), mainCamera->getPosition());
-	//	if (!result) return false;*/
-	//}
+		gameObject->update();
+
+		Transform *transform = gameObject->getTransform();
+		Model *model = gameObject->getModel();
+		auto lightShader = shaderManager->getLightShader();
+
+		result = lightShader->render(deviceContext,
+			model->getIndexCount(), transform->getWorldMatrix(), viewMatrix, projectionMatrix,
+			model->getTexture(), light.get(), mainCamera->getPosition());
+		if (!result) return false;
+	}
 
 
 	D3DXMATRIX sphereWorld, sphereScale, sphereTranslation;

@@ -3,6 +3,11 @@
 
 class Transform : public Component {
 private:
+	D3DXMATRIX worldMatrix;
+	D3DXMATRIX translationMatrix;
+	D3DXMATRIX rotationMatrix;
+	D3DXMATRIX scaleMatrix;
+
 	D3DXVECTOR3 position;
 	D3DXVECTOR3 rotation;
 	D3DXVECTOR3 scale;
@@ -13,9 +18,10 @@ public:
 		const D3DXVECTOR3& scale = { 1.0f, 1.0f, 1.0f });
 	~Transform();
 
-	void start() {};
-	void update() {};
+	void start();
+	void update();
 
+	D3DXMATRIX getWorldMatrix() const { return worldMatrix; }
 	D3DXVECTOR3 getPosition() const { return position; }
 	D3DXVECTOR3 getRotation() const { return rotation; }
 	D3DXVECTOR3 getScale() const { return scale; }

@@ -12,6 +12,7 @@
 #include <d3dx10math.h>
 #include <d3dx11tex.h>
 #include <dinput.h>
+#include <dsound.h>
 
 #include <cstdlib>
 #include <cstdarg>
@@ -47,6 +48,7 @@
 #include "Core/SkyBox.h"
 #include "Core/GameObject.h"
 #include "Core/Scene.h"
+#include "Core/Sound.h"
 #include "Core/System.h"
 
 #include "Shaders/FontShader.h"

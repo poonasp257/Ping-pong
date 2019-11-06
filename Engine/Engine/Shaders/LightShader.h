@@ -17,11 +17,11 @@ private:
 	};
 
 	struct LightBufferType {
-		D3DXVECTOR3 lightDirection;
 		Color ambientColor;
 		Color diffuseColor;
-		Color specularColor;
+		D3DXVECTOR3 lightDirection;
 		float specularPower;
+		Color specularColor;
 	};
 	
 private:

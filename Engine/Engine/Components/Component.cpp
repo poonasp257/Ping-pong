@@ -6,5 +6,5 @@ Component::Component(GameObject* gameObject, Transform* transform)
 }
 
 Component::~Component() {
-
+	
 }

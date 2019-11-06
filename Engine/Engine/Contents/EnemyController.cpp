@@ -16,5 +16,5 @@ void EnemyController::start() {
 }
 
 void EnemyController::update() {
-
+	
 }

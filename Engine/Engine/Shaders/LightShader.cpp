@@ -259,6 +259,7 @@ bool LightShader::setShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMA
 	if (FAILED(result)) return false;
 
 	dataPtr2 = (LightBufferType*)mappedResource.pData;
+	dataPtr2->ambientColor = light->getAmbientColor();
 	dataPtr2->diffuseColor = light->getDiffuseColor();
 	dataPtr2->lightDirection = light->getDirection();
 	dataPtr2->specularColor = light->getSpecularColor();

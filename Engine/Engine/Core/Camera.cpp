@@ -84,7 +84,7 @@ void Camera::render() {
 void Camera::frame(float frameTime) {
 	float units = moveSpeed * frameTime;
 
-	if (Input.GetKey(DIK_A)) {
+	/*if (Input.GetKey(DIK_A)) {
 		move(-units, 0.0f, 0.0f);
 	}
 	if (Input.GetKey(DIK_D)) {
@@ -95,7 +95,7 @@ void Camera::frame(float frameTime) {
 	}
 	if (Input.GetKey(DIK_S))  {
 		move(0.0f, 0.0f, -units);
-	}
+	}*/
 
 	LONG lx = Input.GetAxisX();
 	LONG ly = Input.GetAxisY();

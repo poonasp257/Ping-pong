@@ -23,7 +23,7 @@
     <ClInclude Include="Components\Collider.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Components\Transform.h" />
-    <ClInclude Include="Contents\Ball.h" />
+    <ClInclude Include="Contents\BounceBall.h" />
     <ClInclude Include="Contents\EnemyController.h" />
     <ClInclude Include="Contents\MainScene.h" />
     <ClInclude Include="Contents\PlayerController.h" />
@@ -39,6 +39,7 @@
     <ClInclude Include="Core\Model.h" />
     <ClInclude Include="Core\Scene.h" />
     <ClInclude Include="Core\SkyBox.h" />
+    <ClInclude Include="Core\Sound.h" />
     <ClInclude Include="Core\System.h" />
     <ClInclude Include="Core\Text.h" />
     <ClInclude Include="Core\Texture.h" />
@@ -55,7 +56,7 @@
     <ClCompile Include="Components\Collider.cpp" />
     <ClCompile Include="Components\Component.cpp" />
     <ClCompile Include="Components\Transform.cpp" />
-    <ClCompile Include="Contents\Ball.cpp" />
+    <ClCompile Include="Contents\BounceBall.cpp" />
     <ClCompile Include="Contents\EnemyController.cpp" />
     <ClCompile Include="Contents\MainScene.cpp" />
     <ClCompile Include="Contents\PlayerController.cpp" />
@@ -71,6 +72,7 @@
     <ClCompile Include="Core\Model.cpp" />
     <ClCompile Include="Core\Scene.cpp" />
     <ClCompile Include="Core\SkyBox.cpp" />
+    <ClCompile Include="Core\Sound.cpp" />
     <ClCompile Include="Core\System.cpp" />
     <ClCompile Include="Core\Text.cpp" />
     <ClCompile Include="Core\Texture.cpp" />
@@ -156,7 +158,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib/x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>winmm.lib;pdh.lib;dxgi.lib;d3d11.lib;d3dx11.lib;d3dx10.lib;dinput8.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;pdh.lib;dxgi.lib;d3d11.lib;d3dx11.lib;d3dx10.lib;dinput8.lib;dxguid.lib;dsound.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <FxCompile>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
