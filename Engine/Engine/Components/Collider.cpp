@@ -3,7 +3,7 @@
 std::vector<Collider*> Collider::colliders;
 
 Collider::Collider(GameObject* gameObject, Transform* transform)
-	: Component(gameObject, transform), isEnabled(true) {
+	: Component(gameObject, transform), isEnabled(true), collider(nullptr) {
 	colliders.push_back(this);
 }
 
@@ -23,12 +23,28 @@ void Collider::Update() {
 
 	this->update();
 
-	Collider *collider = Collide();
-	if (!collider) return;
+	auto newCollider = Collide();
+	if (!newCollider && !collider) return;
+
+	void(Component::*collisionEvent)(Collider *collider);
+	collisionEvent = nullptr;
+
+	if (newCollider && !collider) {
+		collisionEvent = &Component::OnCollisionEnter;
+	}
+	else if (newCollider && collider) {
+		collisionEvent = &Component::OnCollisionStay;
+	}
+	else if (!newCollider && collider) {
+		collisionEvent = &Component::OnCollisionExit;
+	}
 
 	for (auto& comp : gameObject->components) {
-		comp->OnCollisionEnter(collider);
+		Component* component = comp.get();
+		(component->*collisionEvent)(newCollider);
 	}
+
+	collider = newCollider;
 }
 
 Collider* Collider::Collide() {

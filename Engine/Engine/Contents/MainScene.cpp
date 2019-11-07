@@ -48,7 +48,9 @@ bool MainScene::initialize(bool isFullScreen, int screenWidth, int screenHeight,
 	std::shared_ptr<GameObject> player = std::make_shared<GameObject>(device, deviceContext, "Player", "Character");
 	player->loadModel(L"../Engine/data/cat.obj", L"../Engine/data/cat.dds");
 	player->getTransform()->setPosition({ 0.0f, 0.0f, -55.0f });
+	player->getTransform()->setRotation({ 0.0f, 180.f, 0.0f });
 	player->getTransform()->setScale({ 0.1f, 0.1f, 0.1f });
+
 
 	player->AddComponent<PlayerController>();
 	player->AddComponent<BoxCollider>();

@@ -3,6 +3,8 @@
 
 class Collider : public Component {
 private:
+	Collider *collider;
+
 	static std::vector<Collider*> colliders;
 
 protected:

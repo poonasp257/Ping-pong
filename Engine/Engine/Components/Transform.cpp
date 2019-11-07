@@ -18,9 +18,9 @@ void Transform::update() {
 	D3DXMATRIX rotX, rotY, rotZ;
 	
 	D3DXMatrixScaling(&scaleMatrix, scale.x, scale.y, scale.z);
-	D3DXMatrixRotationZ(&rotZ, rotation.z);
-	D3DXMatrixRotationY(&rotY, rotation.y);
-	D3DXMatrixRotationX(&rotX, rotation.x);
+	D3DXMatrixRotationZ(&rotZ, D3DXToRadian(rotation.z));
+	D3DXMatrixRotationY(&rotY, D3DXToRadian(rotation.y));
+	D3DXMatrixRotationX(&rotX, D3DXToRadian(rotation.x));
 	D3DXMatrixTranslation(&translationMatrix, position.x, position.y, position.z);
 
 	rotationMatrix = rotZ * rotY * rotX;
