@@ -3,8 +3,9 @@
 
 class BoxCollider : public Collider {
 private:
-	float minX, minY, minZ;
-	float maxX, maxY, maxZ;
+	D3DXVECTOR3 oldPosition;
+	D3DXVECTOR3 maxVertex;
+	D3DXVECTOR3 minVertex;
 
 protected:
 	void start();

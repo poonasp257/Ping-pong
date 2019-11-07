@@ -30,27 +30,57 @@ bool MainScene::initialize(bool isFullScreen, int screenWidth, int screenHeight,
 	bgm->PlayWaveFile(-500, true);
 
 	mainCamera->setPosition(0.0f, 30.0f, -80.0f);
-	   
-	std::shared_ptr<GameObject> court = std::make_shared<GameObject>(device, deviceContext, "Court", "Props");
+	
+	std::shared_ptr<GameObject> panel1 = std::make_shared<GameObject>(device, deviceContext, "Panel1", "Props");
+	panel1->loadModel(L"../Engine/data/seafloor.dds");
+	panel1->getTransform()->setPosition({ 0.0f, 0.0f, 40.0f });
+	panel1->getTransform()->setScale({ 3.0f, 0.5f, 1.0f });
+	panel1->AddComponent<BoxCollider>();
+
+	std::shared_ptr<GameObject> panel2 = std::make_shared<GameObject>(device, deviceContext, "Panel2", "Props");
+	panel2->loadModel(L"../Engine/data/seafloor.dds");
+	panel2->getTransform()->setPosition({ -30.0f, 0.0f, -10.0f });
+	panel2->getTransform()->setRotation({ 0.0f, -90.0f, 0.0f });
+	panel2->getTransform()->setScale({ 5.0f, 0.5f, 1.0f });
+	panel2->AddComponent<BoxCollider>();
+
+	std::shared_ptr<GameObject> panel3 = std::make_shared<GameObject>(device, deviceContext, "Panel3", "Props");
+	panel3->loadModel(L"../Engine/data/seafloor.dds");
+	panel3->getTransform()->setPosition({ 30.0f, 0.0f, -10.0f });
+	panel3->getTransform()->setRotation({ 0.0f, 90.0f, 0.0f });
+	panel3->getTransform()->setScale({ 5.0f, 0.5f, 1.0f });
+	panel3->AddComponent<BoxCollider>();
+
+	std::shared_ptr<GameObject> panel4 = std::make_shared<GameObject>(device, deviceContext, "Panel4", "Props");
+	panel4->loadModel(L"../Engine/data/seafloor.dds");
+	panel4->getTransform()->setPosition({ 0.0f, 0.0f, -60.0f });
+	panel4->getTransform()->setRotation({ 0.0f, 180.0f, 0.0f });
+	panel4->getTransform()->setScale({ 3.0f, 0.5f, 1.0f });
+	panel4->AddComponent<BoxCollider>();
+	
+	gameObjects.push_back(panel1);
+	gameObjects.push_back(panel2);
+	gameObjects.push_back(panel3);
+	gameObjects.push_back(panel4);
+
+
+	/*std::shared_ptr<GameObject> court = std::make_shared<GameObject>(device, deviceContext, "Court", "Props");
 	court->loadModel(L"../Engine/data/Tennis-Court.obj", L"../Engine/data/Tennis-Court.dds");
-	court->getTransform()->setPosition({ 0.0f, -30.0f, 30.0f });
+	court->getTransform()->setPosition({ 0.0f, 0.0f, 30.0f });*/
 	
 	std::shared_ptr<GameObject> ball = std::make_shared<GameObject>(device, deviceContext, "Ball", "Ball");
 	ball->loadModel(L"../Engine/data/tennisball.obj", L"../Engine/data/seafloor.dds");
 	ball->getTransform()->setPosition({ 0.0f, 0.0f, -45.0f });
 	ball->getTransform()->setScale({ 0.01f, 0.01f, 0.01f });
 
-	auto bounceBall = ball->AddComponent<BounceBall>();
+	/*auto bounceBall = ball->AddComponent<BounceBall>();
 	bounceBall->loadSound(hwnd, "../Engine/data/tennis_hit.wav");
-
-	ball->AddComponent<BoxCollider>();
+	ball->AddComponent<BoxCollider>();*/
 
 	std::shared_ptr<GameObject> player = std::make_shared<GameObject>(device, deviceContext, "Player", "Character");
 	player->loadModel(L"../Engine/data/cat.obj", L"../Engine/data/cat.dds");
 	player->getTransform()->setPosition({ 0.0f, 0.0f, -55.0f });
-	player->getTransform()->setRotation({ 0.0f, 180.f, 0.0f });
 	player->getTransform()->setScale({ 0.1f, 0.1f, 0.1f });
-
 
 	player->AddComponent<PlayerController>();
 	player->AddComponent<BoxCollider>();
@@ -63,8 +93,8 @@ bool MainScene::initialize(bool isFullScreen, int screenWidth, int screenHeight,
 	enemy->AddComponent<EnemyController>();
 	enemy->AddComponent<BoxCollider>();
 
-	gameObjects.push_back(court);
-	gameObjects.push_back(ball);
+	//gameObjects.push_back(court);
+	//gameObjects.push_back(ball);
 	gameObjects.push_back(player);
 	gameObjects.push_back(enemy);
 
@@ -160,9 +190,9 @@ bool MainScene::render() {
 	direct3D->getOrthoMatrix(orthoMatrix);
 
 	for (auto& gameObject : gameObjects) {
+		gameObject->update();
 		if (!gameObject->activeSelf()) continue;
 
-		gameObject->update();
 
 		Transform *transform = gameObject->getTransform();
 		Model *model = gameObject->getModel();

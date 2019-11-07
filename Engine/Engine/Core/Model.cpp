@@ -66,6 +66,8 @@ bool Model::createPrimitive(ID3D11Device* device) {
 	indices = new unsigned long[indexCount];
 	if (!indices) return false;
 
+	model = std::make_unique<ModelType[]>(vertexCount);
+
 	vertices[0].position = D3DXVECTOR3(-10.0f, -10.0f, 0.0f);
 	vertices[0].texture = D3DXVECTOR2(0.0f, 1.0f);
 	vertices[1].position = D3DXVECTOR3(-10.0f, 10.0f, 0.0f);
@@ -75,6 +77,15 @@ bool Model::createPrimitive(ID3D11Device* device) {
 	vertices[3].position = D3DXVECTOR3(10.0f, -10.0f, 0.0f);
 	vertices[3].texture = D3DXVECTOR2(0.0f, 0.0f);
 
+	model[0].position = vertices[0].position;
+	model[0].texture = vertices[0].texture;
+	model[1].position = vertices[1].position;
+	model[1].texture = vertices[1].texture;
+	model[2].position = vertices[2].position;
+	model[2].texture = vertices[2].texture;
+	model[3].position = vertices[3].position;
+	model[3].texture = vertices[3].texture;
+
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
@@ -82,6 +93,8 @@ bool Model::createPrimitive(ID3D11Device* device) {
 	indices[3] = 2;
 	indices[4] = 3;
 	indices[5] = 0;
+
+	polygonCount = 2;
 
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexBufferDesc.ByteWidth = sizeof(VertexType) * vertexCount;
@@ -133,14 +146,14 @@ bool Model::initializeBuffers(ID3D11Device* device) {
 	indices = new unsigned long[indexCount];
 	if (!indices) return false;
 
-	for (int i = 0; i < vertexCount; ++i) {
-		vertices[i].position = D3DXVECTOR3(model[i].x, model[i].y, model[i].z);
-		vertices[i].texture = D3DXVECTOR2(model[i].tu, model[i].tv);
-		vertices[i].normal = D3DXVECTOR3(model[i].nx, model[i].ny, model[i].nz);
+	for (int i = 0; i < vertexCount; ++i) {		
+		vertices[i].position = model[i].position;
+		vertices[i].texture = model[i].texture;
+		vertices[i].normal = model[i].normal;
 
 		indices[i] = i;
 	}
-
+	   
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexBufferDesc.ByteWidth = sizeof(VertexType) * vertexCount;
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -246,7 +259,7 @@ bool Model::loadModel(const WCHAR* fileName) {
 	polygonCount = faceCount;
 
 	std::unique_ptr<D3DXVECTOR3[]> vertices(new D3DXVECTOR3[vertexCount]);
-	std::unique_ptr<D3DXVECTOR3[]> texcoords(new D3DXVECTOR3[textureCount]);
+	std::unique_ptr<D3DXVECTOR2[]> texcoords(new D3DXVECTOR2[textureCount]);
 	std::unique_ptr<D3DXVECTOR3[]> normals(new D3DXVECTOR3[normalCount]);
 	std::unique_ptr<FaceType[]> faces(new FaceType[faceCount]);
 
@@ -311,38 +324,23 @@ bool Model::loadModel(const WCHAR* fileName) {
 		vIndex = faces[i].vIndex1 - 1;
 		tIndex = faces[i].tIndex1 - 1;
 		nIndex = faces[i].nIndex1 - 1;
-		model[mIndex].x = vertices[vIndex].x;
-		model[mIndex].y = vertices[vIndex].y;
-		model[mIndex].z = vertices[vIndex].z;
-		model[mIndex].tu = texcoords[tIndex].x;
-		model[mIndex].tv = texcoords[tIndex].y;
-		model[mIndex].nx = normals[nIndex].x;
-		model[mIndex].ny = normals[nIndex].y;
-		model[mIndex].nz = normals[nIndex].z;
-
+		model[mIndex].position = vertices[vIndex];
+		model[mIndex].texture = texcoords[tIndex];
+		model[mIndex].normal = normals[nIndex];
+		
 		vIndex = faces[i].vIndex2 - 1;
 		tIndex = faces[i].tIndex2 - 1;
 		nIndex = faces[i].nIndex2 - 1;
-		model[mIndex + 1].x = vertices[vIndex].x;
-		model[mIndex + 1].y = vertices[vIndex].y;
-		model[mIndex + 1].z = vertices[vIndex].z;
-		model[mIndex + 1].tu = texcoords[tIndex].x;
-		model[mIndex + 1].tv = texcoords[tIndex].y;
-		model[mIndex + 1].nx = normals[nIndex].x;
-		model[mIndex + 1].ny = normals[nIndex].y;
-		model[mIndex + 1].nz = normals[nIndex].z;
+		model[mIndex + 1].position = vertices[vIndex];
+		model[mIndex + 1].texture = texcoords[tIndex];
+		model[mIndex + 1].normal = normals[nIndex];
 
 		vIndex = faces[i].vIndex3 - 1;
 		tIndex = faces[i].tIndex3 - 1;
 		nIndex = faces[i].nIndex3 - 1;
-		model[mIndex + 2].x = vertices[vIndex].x;
-		model[mIndex + 2].y = vertices[vIndex].y;
-		model[mIndex + 2].z = vertices[vIndex].z;
-		model[mIndex + 2].tu = texcoords[tIndex].x;
-		model[mIndex + 2].tv = texcoords[tIndex].y;
-		model[mIndex + 2].nx = normals[nIndex].x;
-		model[mIndex + 2].ny = normals[nIndex].y;
-		model[mIndex + 2].nz = normals[nIndex].z;
+		model[mIndex + 2].position = vertices[vIndex];
+		model[mIndex + 2].texture = texcoords[tIndex];
+		model[mIndex + 2].normal = normals[nIndex];
 	}
 
 	return true;

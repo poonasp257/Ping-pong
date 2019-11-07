@@ -8,17 +8,17 @@ private:
 		D3DXVECTOR3 normal;
 	};
 
-	struct ModelType {
-		float x, y, z;
-		float tu, tv;
-		float nx, ny, nz;
-	};
-
 	struct FaceType {
 		int vIndex1, vIndex2, vIndex3;
 		int tIndex1, tIndex2, tIndex3;
 		int nIndex1, nIndex2, nIndex3;
 	};
+
+	struct ModelType {
+		D3DXVECTOR3 position;
+		D3DXVECTOR2 texture;
+		D3DXVECTOR3 normal;
+	};	
 
 private:
 	ID3D11Buffer *vertexBuffer, *indexBuffer;
@@ -36,7 +36,7 @@ private:
 
 	bool readFileCounts(const WCHAR*, int&, int&, int&);
 	bool loadModel(const WCHAR*);
-
+	
 public:
 	Model();
 	~Model();
@@ -46,7 +46,9 @@ public:
 	void render(ID3D11DeviceContext*);
 
 	int getIndexCount() const { return indexCount; }
+	int getVertexCount() const { return vertexCount; }
 	int getPolygonCount() const { return polygonCount; }
 	ID3D11ShaderResourceView* getTexture() { return texture->getTexture(); }
+	ModelType* getVertices() { return model.get(); }
 };
 #endif

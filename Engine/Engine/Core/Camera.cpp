@@ -84,18 +84,18 @@ void Camera::render() {
 void Camera::frame(float frameTime) {
 	float units = moveSpeed * frameTime;
 
-	/*if (Input.GetKey(DIK_A)) {
+	if (Input.GetKey(DIK_LEFTARROW)) {
 		move(-units, 0.0f, 0.0f);
 	}
-	if (Input.GetKey(DIK_D)) {
+	if (Input.GetKey(DIK_RIGHTARROW)) {
 		move(units, 0.0f, 0.0f);
 	}
-	if (Input.GetKey(DIK_W)) {
+	if (Input.GetKey(DIK_UPARROW)) {
 		move(0.0f, 0.0f, units);
 	}
-	if (Input.GetKey(DIK_S))  {
+	if (Input.GetKey(DIK_DOWNARROW))  {
 		move(0.0f, 0.0f, -units);
-	}*/
+	}
 
 	LONG lx = Input.GetAxisX();
 	LONG ly = Input.GetAxisY();
