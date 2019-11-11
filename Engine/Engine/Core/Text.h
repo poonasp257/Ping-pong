@@ -45,6 +45,7 @@ public:
 	bool setCPU(int, ID3D11DeviceContext*);
 	bool setNumOfObjects(int, ID3D11DeviceContext*);
 	bool setNumOfPolygons(int, ID3D11DeviceContext*);
+	bool setScore(int score1, int score2, ID3D11DeviceContext*);
 
 	void turnOnOffRenderInfo();
 };

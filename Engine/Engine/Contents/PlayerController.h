@@ -9,16 +9,7 @@ public:
 public:
 	void start();
 	void update();
-	
-	void OnCollisionEnter(Collider *collider) {
-		this->gameObject->setActive(false);
 
-	}
-
-	void OnCollisionExit(Collider *collider) {
-		this->gameObject->setActive(true);
-
-
-	}
+	void OnCollisionEnter(Collider *collider);
 };
 #endif

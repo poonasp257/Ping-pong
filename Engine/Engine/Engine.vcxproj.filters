@@ -88,9 +88,6 @@
     <ClInclude Include="Shaders\FontShader.h">
       <Filter>Shaders</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders\LightShader.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="Shaders\ShaderManager.h">
       <Filter>Shaders</Filter>
     </ClInclude>
@@ -108,6 +105,15 @@
     </ClInclude>
     <ClInclude Include="Core\Sound.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\PointLightShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders\DirectionalLightShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Contents\WallController.h">
+      <Filter>Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,9 +185,6 @@
     <ClCompile Include="Shaders\FontShader.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
-    <ClCompile Include="Shaders\LightShader.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="Shaders\ShaderManager.cpp">
       <Filter>Shaders</Filter>
     </ClCompile>
@@ -200,6 +203,15 @@
     <ClCompile Include="Core\Sound.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Shaders\PointLightShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders\DirectionalLightShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Contents\WallController.cpp">
+      <Filter>Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="font.ps" />
@@ -208,5 +220,7 @@
     <None Include="light.vs" />
     <None Include="texture.ps" />
     <None Include="texture.vs" />
+    <None Include="pointLight.ps" />
+    <None Include="pointLight.vs" />
   </ItemGroup>
 </Project>

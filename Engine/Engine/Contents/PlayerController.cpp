@@ -15,21 +15,27 @@ void PlayerController::start() {
 }
 
 void PlayerController::update() {
-	D3DXVECTOR3 dir = { 0.0f, 0.0f, 0.0f };
+	this->transform->velocity = { 0, 0, 0 };
 
 	if (Input.GetKey(DIK_W)) {
-		dir += { 0.0f, 0.0f, 1.0f };
+		transform->velocity += { 0.0f, 0.0f, 1.0f };
 	}
 	if (Input.GetKey(DIK_A)) {
-		dir += { -1.0f, 0.0f, 0.0f };
+		transform->velocity += { -1.0f, 0.0f, 0.0f };
 	}
 	if (Input.GetKey(DIK_S)) {
-		dir += { 0.0f, 0.0f, -1.0f };
+		transform->velocity += { 0.0f, 0.0f, -1.0f };
 	}
 	if (Input.GetKey(DIK_D)) {
-		dir += { 1.0f, 0.0f, 0.0f };
+		transform->velocity += { 1.0f, 0.0f, 0.0f };
 	}
 
-	D3DXVECTOR3 movePos = transform->getPosition() + dir * 0.5f;
+	D3DXVECTOR3 movePos = transform->getPosition() + transform->velocity * 0.5f;
 	transform->setPosition(movePos);
+}
+
+void PlayerController::OnCollisionEnter(Collider *collider) {
+	if (collider->gameObject->tag == "Props") {
+		//this->transform->position -= this->transform->velocity;
+	}
 }

@@ -1,9 +1,10 @@
 #include "stdafx.h"
 
 ShaderManager::ShaderManager() :
-	textureShader(std::make_unique<TextureShader>()), 
-	fontShader(std::make_unique<FontShader>()),
-	lightShader(std::make_unique<LightShader>()) {
+	textureShader(new TextureShader), 
+	fontShader(new FontShader),
+	directionalLightShader(new DirectionalLightShader),
+	pointLightShader(new PointLightShader) {
 
 }
 
@@ -20,7 +21,10 @@ bool ShaderManager::initialize(ID3D11Device *device, HWND hwnd) {
 	result = fontShader->initialize(device, hwnd);
 	if (!result) return false;
 
-	result = lightShader->initialize(device, hwnd);
+	result = directionalLightShader->initialize(device, hwnd);
+	if (!result) return false;
+
+	result = pointLightShader->initialize(device, hwnd);
 	if (!result) return false;
 
 	return true;

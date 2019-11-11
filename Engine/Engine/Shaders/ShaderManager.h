@@ -2,19 +2,16 @@
 #define SHADERMANAGER_H
 
 class ShaderManager {
-private:
+public:
 	std::unique_ptr<TextureShader> textureShader;
 	std::unique_ptr<FontShader> fontShader;
-	std::unique_ptr<LightShader> lightShader;
+	std::unique_ptr<DirectionalLightShader> directionalLightShader;
+	std::unique_ptr<PointLightShader> pointLightShader;
 
 public:
 	ShaderManager();
 	~ShaderManager();
 
 	bool initialize(ID3D11Device *device, HWND hwnd);
-
-	TextureShader* const getTextureShader() const { return textureShader.get(); }
-	FontShader* const getFontShader() const { return fontShader.get(); }
-	LightShader* const getLightShader() const { return lightShader.get(); }
 };
 #endif

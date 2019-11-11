@@ -3,8 +3,9 @@
 std::vector<Collider*> Collider::colliders;
 
 Collider::Collider(GameObject* gameObject, Transform* transform)
-	: Component(gameObject, transform), isEnabled(true), collider(nullptr) {
+	: Component(gameObject, transform), isEnabled(true) {
 	colliders.push_back(this);
+	detectedColliders.reserve(10);
 }
 
 Collider::~Collider() {
@@ -22,39 +23,57 @@ void Collider::Update() {
 	if (!isEnabled) return;
 
 	this->update();
+	auto newColliders = Collide();
+	if (newColliders.size() == 0
+		&& detectedColliders.size() == 0) return;
 
-	auto newCollider = Collide();
-	if (!newCollider && !collider) return;
+	// Exit
+	if (newColliders.size() == 0) {
+		for (auto it = detectedColliders.begin(); it != detectedColliders.end(); ) {
+			for (auto comp : gameObject->components) {
+				comp->OnCollisionExit(*it);
+			}
 
-	void(Component::*collisionEvent)(Collider *collider);
-	collisionEvent = nullptr;
+			it = detectedColliders.erase(it);
+		}
 
-	if (newCollider && !collider) {
-		collisionEvent = &Component::OnCollisionEnter;
-	}
-	else if (newCollider && collider) {
-		collisionEvent = &Component::OnCollisionStay;
-	}
-	else if (!newCollider && collider) {
-		collisionEvent = &Component::OnCollisionExit;
-	}
-
-	for (auto& comp : gameObject->components) {
-		Component* component = comp.get();
-		(component->*collisionEvent)(newCollider);
+		return;
 	}
 
-	collider = newCollider;
+	for (auto newCollider : newColliders) {
+		auto newObj = newCollider->gameObject;
+		newObj->transform->position -= newObj->transform->velocity;
+
+
+
+		auto found = std::find(detectedColliders.begin(), detectedColliders.end(), newCollider);
+		// Enter
+		if (found == detectedColliders.end()) {
+			for (auto comp : gameObject->components) {
+				comp->OnCollisionEnter(newCollider);
+			}
+
+			detectedColliders.push_back(newCollider);
+			continue;
+		}
+
+		// Stay
+		for (auto comp : gameObject->components) {
+			comp->OnCollisionStay(*found);
+		}
+	}
 }
 
-Collider* Collider::Collide() {
+std::vector<Collider*> Collider::Collide() {
+	std::vector<Collider*> newColliders;
+
 	for (auto collider : colliders) {
 		if (collider == this) continue;
 
 		if (this->collide(collider)) {
-			return collider;
+			newColliders.push_back(collider);
 		}
 	}
 
-	return nullptr;
+	return newColliders;
 }

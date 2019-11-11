@@ -27,6 +27,7 @@
     <ClInclude Include="Contents\EnemyController.h" />
     <ClInclude Include="Contents\MainScene.h" />
     <ClInclude Include="Contents\PlayerController.h" />
+    <ClInclude Include="Contents\WallController.h" />
     <ClInclude Include="Core\Bitmap.h" />
     <ClInclude Include="Core\Camera.h" />
     <ClInclude Include="Core\CPUManager.h" />
@@ -45,7 +46,8 @@
     <ClInclude Include="Core\Texture.h" />
     <ClInclude Include="Core\Timer.h" />
     <ClInclude Include="Shaders\FontShader.h" />
-    <ClInclude Include="Shaders\LightShader.h" />
+    <ClInclude Include="Shaders\DirectionalLightShader.h" />
+    <ClInclude Include="Shaders\PointLightShader.h" />
     <ClInclude Include="Shaders\ShaderManager.h" />
     <ClInclude Include="Shaders\TextureShader.h" />
     <ClInclude Include="stdafx.h" />
@@ -60,6 +62,7 @@
     <ClCompile Include="Contents\EnemyController.cpp" />
     <ClCompile Include="Contents\MainScene.cpp" />
     <ClCompile Include="Contents\PlayerController.cpp" />
+    <ClCompile Include="Contents\WallController.cpp" />
     <ClCompile Include="Core\Bitmap.cpp" />
     <ClCompile Include="Core\Camera.cpp" />
     <ClCompile Include="Core\CPUManager.cpp" />
@@ -79,7 +82,8 @@
     <ClCompile Include="Core\Timer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Shaders\FontShader.cpp" />
-    <ClCompile Include="Shaders\LightShader.cpp" />
+    <ClCompile Include="Shaders\DirectionalLightShader.cpp" />
+    <ClCompile Include="Shaders\PointLightShader.cpp" />
     <ClCompile Include="Shaders\ShaderManager.cpp" />
     <ClCompile Include="Shaders\TextureShader.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -91,6 +95,8 @@
     <None Include="font.vs" />
     <None Include="light.ps" />
     <None Include="light.vs" />
+    <None Include="pointLight.ps" />
+    <None Include="pointLight.vs" />
     <None Include="texture.ps" />
     <None Include="texture.vs" />
   </ItemGroup>

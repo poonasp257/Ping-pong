@@ -8,12 +8,16 @@ Light::~Light() {
 
 }
 
-void Light::setDiffuseColor(float red, float green, float blue, float alpha) {
-	diffuseColor = { red, green, blue, alpha };
+void Light::setPosition(float x, float y, float z) {
+	position = { x, y, z, 1.0f };
 }
 
 void Light::setDirection(float x, float y, float z) {
 	direction = { x, y, z };
+}
+
+void Light::setDiffuseColor(float red, float green, float blue, float alpha) {
+	diffuseColor = { red, green, blue, alpha };
 }
 
 void Light::setAmbientColor(float red, float green, float blue, float alpha) {

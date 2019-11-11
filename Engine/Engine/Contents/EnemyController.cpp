@@ -12,9 +12,9 @@ EnemyController::~EnemyController() {
 }
 
 void EnemyController::start() {
-
+	ball = GameObject::Find("Ball");
 }
 
 void EnemyController::update() {
-	
+	transform->position.x = ball->transform->position.x;
 }

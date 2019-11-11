@@ -68,14 +68,14 @@ bool Model::createPrimitive(ID3D11Device* device) {
 
 	model = std::make_unique<ModelType[]>(vertexCount);
 
-	vertices[0].position = D3DXVECTOR3(-10.0f, -10.0f, 0.0f);
+	vertices[0].position = D3DXVECTOR3(-40.0f, 0.0f, 0.0f);
 	vertices[0].texture = D3DXVECTOR2(0.0f, 1.0f);
-	vertices[1].position = D3DXVECTOR3(-10.0f, 10.0f, 0.0f);
-	vertices[1].texture = D3DXVECTOR2(1.0f, 0.0f);
-	vertices[2].position = D3DXVECTOR3(10.0f, 10.0f, 0.0f);
-	vertices[2].texture = D3DXVECTOR2(1.0f, 1.0f);
-	vertices[3].position = D3DXVECTOR3(10.0f, -10.0f, 0.0f);
-	vertices[3].texture = D3DXVECTOR2(0.0f, 0.0f);
+	vertices[1].position = D3DXVECTOR3(-40.0f, 10.0f, 0.0f);
+	vertices[1].texture = D3DXVECTOR2(0.0f, 0.0f);
+	vertices[2].position = D3DXVECTOR3(40.0f, 10.0f, 0.0f);
+	vertices[2].texture = D3DXVECTOR2(1.0f, 0.0f);
+	vertices[3].position = D3DXVECTOR3(40.0f, 0.0f, 0.0f);
+	vertices[3].texture = D3DXVECTOR2(1.0f, 1.0f);
 
 	model[0].position = vertices[0].position;
 	model[0].texture = vertices[0].texture;

@@ -3,7 +3,7 @@
 
 class Collider : public Component {
 private:
-	Collider *collider;
+	std::vector<Collider*> detectedColliders;
 
 	static std::vector<Collider*> colliders;
 
@@ -20,7 +20,7 @@ public:
 
 	virtual bool collide(Collider *collider) = 0;
 
-	Collider* Collide();
+	std::vector<Collider*> Collide();
 
 public:
 	Collider(GameObject* gameObject, Transform* transform);

@@ -34,19 +34,11 @@ void GameObject::loadModel(const WCHAR* modelFilename, const WCHAR* textureFilen
 }
 
 GameObject* GameObject::Find(const std::string& name) {
-	/*char* temp = new char[name.length()];
-	strcpy(temp, name.c_str());
-
-	char* tok = strtok(temp, "/");
-	for (auto obj : gameObjects) {
-		if (obj->name.compare(tok) == 0) return obj;
-		else {
-			tok = strtok(NULL, "/");
-			if (tok == NULL) continue;
-
-			for (auto child : obj->children) return child->Find(tok);
+	for (auto gameObject : gameObjects) {
+		if (gameObject->name == name) {
+			return gameObject;
 		}
-	}*/
+	}
 
 	return nullptr;
 }

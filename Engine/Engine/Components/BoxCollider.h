@@ -7,6 +7,11 @@ private:
 	D3DXVECTOR3 maxVertex;
 	D3DXVECTOR3 minVertex;
 
+private:
+	void CreateBoundingVolume();
+	void AdjustBoxScale();
+	void AdjustBoxRotation();
+
 protected:
 	void start();
 	void update();

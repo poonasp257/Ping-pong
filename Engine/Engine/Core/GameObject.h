@@ -5,18 +5,18 @@ class GameObject {
 private:
 	std::vector<GameObject*> children;
 	std::vector<std::shared_ptr<Component>> components;
-	std::shared_ptr<Transform> transform;
 
 	ID3D11Device		*device;
 	ID3D11DeviceContext	*deviceContext;
 
 	static std::list<GameObject*> gameObjects;
 
-protected:
+public:
 	bool isActivated;
 	std::string name;
 	std::string tag;
 	std::unique_ptr<Model> model;
+	std::shared_ptr<Transform> transform;
 
 public:
 	GameObject(ID3D11Device*, ID3D11DeviceContext*, const std::string&, const std::string&);
@@ -41,7 +41,7 @@ public:
 			component.reset();
 			return nullptr;
 		}
-
+		
 		component->Start();
 		components.push_back(component);
 

@@ -53,7 +53,8 @@
 
 #include "Shaders/FontShader.h"
 #include "Shaders/TextureShader.h"
-#include "Shaders/LightShader.h"
+#include "Shaders/DirectionalLightShader.h"
+#include "Shaders/PointLightShader.h"
 #include "Shaders/ShaderManager.h"
 
 #endif

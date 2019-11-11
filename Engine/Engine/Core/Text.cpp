@@ -185,7 +185,7 @@ bool Text::renderSentence(ID3D11DeviceContext* deviceContext, SentenceType* sent
 	pixelColor = D3DXVECTOR4(sentence->color.r, sentence->color.g,
 		sentence->color.b, sentence->color.a);
 
-	result = shaderManager->getFontShader()->render(deviceContext, sentence->indexCount, worldMatrix,
+	result = shaderManager->fontShader->render(deviceContext, sentence->indexCount, worldMatrix,
 		baseViewMatrix, orthoMatrix, font->getTexture(), pixelColor);
 	if (!result) return false;
 
@@ -267,6 +267,31 @@ bool Text::setNumOfPolygons(int num, ID3D11DeviceContext* deviceContext) {
 	buffer += std::to_string((int)num);
 
 	bool result = updateSentence(deviceContext, renderInfo[4], buffer.c_str());
+	if (!result) return false;
+
+	return true;
+}
+
+bool Text::setScore(int score1, int score2, ID3D11DeviceContext* deviceContext) {
+	std::string buffer1, buffer2;
+	buffer1 += "Player Score: ";
+	buffer1 += std::to_string((int)score1);
+
+	buffer2 += "Enemy Score: ";
+	buffer2 += std::to_string((int)score2);
+	if (score1 > 10) {
+		buffer1 += ", Win!!";
+		return true;
+	}
+	else if (score2 > 10) {
+		buffer2 += ", Win!!";
+		return true;
+	}
+
+	bool result = updateSentence(deviceContext, renderInfo[5], buffer1.c_str());
+	if (!result) return false;
+
+	result = updateSentence(deviceContext, renderInfo[6], buffer2.c_str());
 	if (!result) return false;
 
 	return true;
